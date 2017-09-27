@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PHP File Multi Uploader - JS Angular Form</title>
+</head>
+<body>
+	<header>
+		<h1>Sample 02 - JS Basic Form (pure JS)</h1>
+		<h2>A wonderful JS actions and that really works</h2>
+	</header>
+	<nav>
+		<a href="index.html" title="Basic form">Basic Form</a> - 
+		<a href="js_form.html" title="JS form 01">JS Basic Form (pure JS)</a> - 
+		<a href="ajax_form.html" title="JS form 02">JS AJAX Form</a> - 
+		<a href="angular_form.html" title="JS form 03">JS Angular Form</a> - 
+		<a href="vue_form.html" title="JS form 04">JS VUE Form</a> - 
+		<a href="react_form.html" title="JS form 05">JS React Form</a>
+	</nav>
+	<section>
+		<p>IDK if this works on IE6, but in new browsers is a unique expression of ars.</p>
+		<form action="upload01.php" method="post" enctype="multipart/form-data">
+			<label for="files">Choose many files to test it (i can see your soul)</label>
+			<input type="file" name="files" id="files" placeholder="Click to choose many files" multiple>
+			<br>
+			<label>Cool buttons</label>
+			<input type="button" onclick="sendFiles();" name="send" value="Upload Files">
+			<input type="reset" name="reset" value="Reset Fields">			
+		</form>
+		<div id="return"></div>
+	</section>
+</body>
+<script type="text/javascript">
+function postRequest(url, formdata, callback) {
+     var xhr = new XMLHttpRequest();
+     xhr.open('POST', url, true);
+     xhr.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+               callback(this, 200);
+          }
+     }
+     xhr.send(formdata);
+}
+
+function el(e){
+	if(e == null) return false;
+	return document.getElementById(e);
+}
+
+function sendFiles(){
+	var files = document.querySelector('input[type=file]').files;
+
+	var formData = new FormData();
+	formData.append("otherInfoKey", "value");
+	for (var i = 0; i < files.length; i++) {
+		formData.append('files[]', files[i], files[i].name);		
+	}	
+
+	postRequest('upload01.php', formData, function(data, error){
+		var obj = JSON.parse(data.responseText);
+		el('return').append(data.responseText);
+	});
+}
+	
+</script>
+</html>
