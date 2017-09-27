@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>PHP File Multi Uploader - JS AJAX Form</title>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
 	<header>
@@ -17,7 +18,46 @@
 		<a href="react_form.html" title="JS form 05">JS React Form</a>
 	</nav>
 	<section>
-
-	</section>		
+		<p>Maybe this works fine on IE6 (just kidding), but in new browsers is a good expression to our lives.</p>
+		<form method="post" id="ajax_form">
+			<label for="files">Choose many files to test it (i can see your soul)</label>
+			<input type="file" name="files" id="files" placeholder="Click to choose many files" multiple>
+			<br>
+			<label>Cool buttons</label>
+			<input type="submit" name="send" value="Upload Files">
+			<input type="reset" name="reset" value="Reset Fields">			
+		</form>
+		<div id="return"></div>
+	</section>
 </body>
+<script type="text/javascript">
+$("#ajax_form").submit(function() {
+	var files = document.querySelector('input[type=file]').files;
+
+	var formData = new FormData();
+
+	for (var i = 0; i < files.length; i++) {
+		formData.append('files[]', files[i], files[i].name);		
+	}
+	
+	$.ajax({
+		type: "POST",
+		url: "upload01.php",
+		data: formData,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function(obj) {
+			console.log(obj);
+			$("#return").html(obj);			
+		},error: function(error){
+			$("#return").html('Cry baby');
+			console.log(error);
+		}
+	});
+	return false;
+});
+</script>
+
 </html>
