@@ -39,7 +39,7 @@ $("#ajax_form").submit(function() {
 	for (var i = 0; i < files.length; i++) {
 		formData.append('files[]', files[i], files[i].name);		
 	}
-	
+
 	$.ajax({
 		type: "POST",
 		url: "upload01.php",
@@ -49,8 +49,8 @@ $("#ajax_form").submit(function() {
 		processData: false,
 		dataType: "json",
 		success: function(obj) {
-			console.log(obj);
-			$("#return").html(obj);			
+			var json = JSON.stringify(obj);
+			$("#return").html(json);			
 		},error: function(error){
 			$("#return").html('Cry baby');
 			console.log(error);
